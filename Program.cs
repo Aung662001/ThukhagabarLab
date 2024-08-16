@@ -121,7 +121,7 @@ namespace ThukhagabarLab
 			WriteMessageFile(xmlParser, adtMessage, "C:\\Users\\setan\\Desktop\\HL7TestOutputs", "testXmlOutputFile.xml");
 
 			//send to LIS
-			//SendMessage(adtMessage, "195.0.0.239", 20860);
+			SendMessage(adtMessage, "195.0.0.239", 20860);
 		}
 		private static bool AskMoreOperationNeed()
 		{
