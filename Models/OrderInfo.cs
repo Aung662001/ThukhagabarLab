@@ -23,7 +23,7 @@ namespace ThukhagabarLab.Models
 		public int OrderCode { get; set; }
 		public string Gender { get; set; }
 
-		public OrderInfo(int pid, string name, string dob,string gender,int orderCode, string address = "", string city = "", string province = "", string zipCode = "", string country = "", string phone = "", string religion = "", string patientComment = "", string test = "")
+		public OrderInfo(int pid, string name, string dob,string gender,int orderCode=1111, string address = "", string city = "", string province = "", string zipCode = "", string country = "", string phone = "", string religion = "", string patientComment = "", string test = "")
 		{
 			Pid = pid;
 			Name = name;

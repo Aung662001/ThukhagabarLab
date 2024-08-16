@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using ThukhagabarLab.Models;
@@ -27,16 +28,21 @@ namespace ThukhagabarLab.Builder
 		}
 		private static OrderInfo AskForReq()
 		{
+			string gender = "M";
 			Console.Write("Patient Id: ");
 			int id = Convert.ToInt32(Console.ReadLine());
 			Console.Write("Patient Name: ");
 			string name = Console.ReadLine();
 			Console.WriteLine("Date of birth with yyyymmdd format: ");
 			string dob = Console.ReadLine();
+			Console.Write("Gender 1.Male 2:Female: ");
+			int gen = Convert.ToInt32(Console.ReadLine());
+			if (gen == 2) { gender = "F"; }
 			OrderInfo orderinfo = new OrderInfo(
 				pid: id,
 				name: name,
-				dob: dob
+				dob: dob,
+				gender:gender
 				);
 			return orderinfo;
 		}
