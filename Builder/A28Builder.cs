@@ -20,7 +20,7 @@ namespace ThukhagabarLab.Builder
 			var currenttime = DateTime.Now.ToString("yyyyMMddHHmmss", CultureInfo.InvariantCulture);
 			string message = $@"MSH|^~\&|Monicare||LIS||{currenttime}||ADT^A28|{currenttime}|P|2.5
 							EVN|A28|{currenttime}
-							PID|{orderinfo.Pid}|0000299|||^{orderinfo.Name}||{orderinfo.Dob}|M";
+							PID|||{orderinfo.Pid}||^{orderinfo.Name}||{orderinfo.Dob}|||{orderinfo.Gender}";
 
 			PipeParser parser = new();
 			IMessage hl7Message = parser.Parse(message);

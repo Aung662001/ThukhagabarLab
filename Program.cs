@@ -9,6 +9,7 @@ using NHapi.Base.Parser;
 using NHapiTools.Base.Net;
 using System.Globalization;
 using ThukhagabarLab.Factory;
+using ThukhagabarLab.Listener;
 
 namespace ThukhagabarLab
 {
@@ -23,14 +24,8 @@ namespace ThukhagabarLab
 				// create the HL7 message
 				while (loop)
 				{
-					string operation = AskOperationToMake();
-					if (operation == "A28") { 
-						 adtMessage = MessageFactory.CreateMessage("A28");
-						MakeOperation(adtMessage);
-						loop = AskMoreOperationNeed();
-					}else if(operation == "OUL_R21")
-					{
-						adtMessage = MessageFactory.CreateMessage("OUL_R21");
+					 adtMessage = AskOperationToMake();
+					if (adtMessage != null) { 
 						MakeOperation(adtMessage);
 						loop = AskMoreOperationNeed();
 					}
@@ -81,27 +76,41 @@ namespace ThukhagabarLab
 			catch (Exception e)
 			{
 				LogToDebugConsole(e.Message);
-			}
+                Console.WriteLine(e.Message);
+            }
 			finally
 			{
 			}
 		}
 	
-		private static string AskOperationToMake()
+		private static IMessage AskOperationToMake()
 		{
-			string operation = "";
-            Console.WriteLine("1. Add Patient");
+			IMessage adtMessage = null;
+
+			Console.WriteLine("1. Add Patient");
             Console.WriteLine("2. Order A Test");
-            Console.Write("Please select one number of operations Above: ");
+            Console.WriteLine("3. Start Server to receive message");
+			Console.Write("Please select one number of operations Above: ");
 			int op_no =Convert.ToInt32(Console.ReadLine());
-			if(op_no == 1)
+			switch (op_no)
 			{
-				operation = "A28";
-			}else if(op_no == 2)
-			{
-				operation = "OUL_R21";
+				case 1:
+					adtMessage = MessageFactory.CreateMessage("A28");
+					break;
+				case 2:
+					adtMessage = MessageFactory.CreateMessage("OUL_R21");
+					break;
+				case 3:
+					Thread serverThread = new Thread(() => TcpListenerServer.OpenListener());
+					serverThread.IsBackground = true; // This ensures the server thread doesn't block application exit
+					serverThread.Start();
+					AskOperationToMake();// ask further process again
+					break;
+				default:
+					Console.WriteLine("Invalid option selected.");
+					break;
 			}
-			return operation;
+			return adtMessage;
 		}
 	
 		private static void MakeOperation (IMessage adtMessage)
@@ -121,7 +130,8 @@ namespace ThukhagabarLab
 			WriteMessageFile(xmlParser, adtMessage, "C:\\Users\\setan\\Desktop\\HL7TestOutputs", "testXmlOutputFile.xml");
 
 			//send to LIS
-			SendMessage(adtMessage, "195.0.0.239", 20860);
+			SendMessage(adtMessage, "127.0.0.1", 6666);
+			//SendMessage(adtMessage, "195.0.0.239", 20860);
 		}
 		private static bool AskMoreOperationNeed()
 		{
