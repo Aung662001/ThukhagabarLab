@@ -75,8 +75,10 @@ namespace ThukhagabarLab.Listener
 								ORC orc = orderObservation.ORC;
 								OBR obr = orderObservation.OBR;
 
+
+								//Console.WriteLine($"Order Control: {orc.GetField(1).GetValue(0)}");
 								Console.WriteLine($"Order Control: {orc.OrderControl.Value}");
-								Console.WriteLine($"Order ControlId: {orc.OrderControl.Message}");
+								Console.WriteLine($"Placer order Id: {orc.PlacerOrderNumber.EntityIdentifier.Value}");
 								Console.WriteLine($"Observation Request: {obr.UniversalServiceIdentifier.Identifier.Value}");
 
 								for (int j = 0; j < orderObservation.OBSERVATIONRepetitionsUsed; j++)
@@ -103,11 +105,11 @@ namespace ThukhagabarLab.Listener
 						{
 							Console.WriteLine("Received message is not an ORU_R01 message.");
 						}
-						Console.WriteLine("___________________");
-						// Extract information
 						var messageType = mshSegment.MessageType.MessageCode.Value;
-                        //Console.WriteLine("hl7Data"+ hl7Data);
-                        //Console.WriteLine("hl7Message"+ hl7Message);
+						var messageTriggerEvent = mshSegment.MessageType.TriggerEvent.Value;
+                        Console.WriteLine("Message type: "+ messageType+"^"+messageTriggerEvent);
+						//Console.WriteLine("hl7Message"+ hl7Message);
+						Console.WriteLine("___________________");
 					}
 				}
 				catch (Exception e)
