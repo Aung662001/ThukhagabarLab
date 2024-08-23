@@ -23,7 +23,7 @@ namespace ThukhagabarLab.Builder
 			var currenttimestamp = DateTime.Now.ToString("yyyyMMddHHmmss", CultureInfo.InvariantCulture);
 			var message = $@"MSH|^~\&|||||{currenttimestamp}||OML^O21|{currenttimestamp}|T|2.5|||AL|ER
 				PID|||{orderinfo.Pid}|| ^{orderinfo.Name}^^^^^^{orderinfo.Dob}|||{orderinfo.Gender}
-				ORC|NW|{currenttimestamp}|||||||{currenttimestamp}|||
+				ORC|NW|CSH123456789|||||||{currenttimestamp}|||
 				OBR|1|||{orderinfo.OrderCode}|{orderinfo.TestName}||||||||||Blood";
 
 			PipeParser parser = new();

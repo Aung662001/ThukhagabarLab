@@ -65,7 +65,7 @@ namespace ThukhagabarLab
 
 		private static void SendMessage(IMessage hl7Message, string host, int port)
 		{
-			var connection = new SimpleMLLPClient(host, port);
+			var connection = new Connection(host,port).Connect();
 			var parser = new PipeParser();
 			try
 			{
@@ -130,7 +130,7 @@ namespace ThukhagabarLab
 			WriteMessageFile(xmlParser, adtMessage, "C:\\Users\\setan\\Desktop\\HL7TestOutputs", "testXmlOutputFile.xml");
 
 			//send to LIS
-			SendMessage(adtMessage, "127.0.0.1", 6666);
+			SendMessage(adtMessage, IPAddress.Loopback.ToString(), 52463);
 			//SendMessage(adtMessage, "195.0.0.239", 20860);
 		}
 		private static bool AskMoreOperationNeed()
